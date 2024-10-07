@@ -1,5 +1,5 @@
 import {
-  ChevronDownIcon, Bars4Icon,ShoppingCartIcon,
+  ChevronDownIcon, Bars4Icon, ShoppingCartIcon,
   UserIcon
 } from '@heroicons/react/24/solid'
 import {
@@ -8,7 +8,7 @@ import {
   Square2StackIcon,
   TrashIcon,
 } from '@heroicons/react/16/solid'
-import { Popover, PopoverButton, PopoverPanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
+import { Popover, PopoverButton, PopoverPanel, Menu, MenuButton, MenuItem, MenuItems, Switch } from '@headlessui/react'
 
 import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../context/context";
@@ -17,6 +17,9 @@ import clsx from "clsx";
 
 function NavBar({ src, NameUser }) {
   const theme = useContext(ThemeContext);
+  const [login, setlogin] = useState(false);
+  const [enabled, setEnabled] = useState(false)
+  const [color, setcolor] = useState(true);
   // const [statusWindow, setStatusWindow] = useState(true);
   // useEffect(() => {
   //   const handleScroll = () => {
@@ -24,14 +27,14 @@ function NavBar({ src, NameUser }) {
   //   };
 
   // }, window.scrollY); // 
+  useEffect((color) => {
+    setcolor(!color);
+  }, [enabled])
   return (
-
-    <nav className={clsx("top-0 z-40 h-full")}
+    
+    <nav className={clsx('top-0 z-40 h-full',enabled ? 'bg-white' : 'bg-slate-600')}
     >
-      <div className="flex justify-around"
-        style={{
-          background: theme
-        }}>
+      <div className="flex justify-around">
         <a href="#"
           style=
           {
@@ -47,7 +50,7 @@ function NavBar({ src, NameUser }) {
       </div>
 
       <div className="flex justify-around max-md:hidden pc ">
-        
+
         <Popover>
           <PopoverButton className="block text-sm/6 font-semibold  focus:outline-none  data-[hover]:text-blue-400 data-[focus]:outline-1 data-[focus]:outline-white m-5 ">
             Solutions
@@ -141,53 +144,82 @@ function NavBar({ src, NameUser }) {
             </div>
           </PopoverPanel>
         </Popover>
-        <div className="Card-Shoping flex justify-center ">
-        <Menu>
-          <MenuButton className="inline-flex items-center gap-2 rounded-md  py-1.5 px-3 text-sm/6 font-semibold shadow-inner shadow-white/10 focus:outline-none  data-[focus]:outline-1 data-[focus]:outline-white">
-             <ShoppingCartIcon className="size-5" />
-          </MenuButton>
-
-          <MenuItems
-            transition
-            anchor="bottom end"
-            className="w-52 origin-top-right rounded-xl border border-white/5 bg-black p-1 text-sm/6 text-white transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0 z-40 "
+        <div className='switch-color flex justify-center items-center'>
+          <Switch
+            checked={enabled}
+            onChange={setEnabled}
+            className="group inline-flex h-6 w-11 items-center rounded-full bg-black transition data-[checked]:bg-blue-600"
           >
-           
-            <MenuItem>
-              <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
-                <TrashIcon className="size-4 fill-white/30" />
-                Delete
-                <kbd className="ml-auto font-sans text-xs text-white/50 ">
-                <img src="https://cdn.authentic-shoes.com/wp-content/uploads/2023/07/dr6191-101_blanc_1.png" alt="" />
-                </kbd>
-              </button>
-            </MenuItem>
-          </MenuItems>
-        </Menu>
+            <span className="size-4 translate-x-1 rounded-full bg-white transition group-data-[checked]:translate-x-6" />
+          </Switch>
+        </div>
+        <div className="Card-Shoping flex justify-center ">
+          <Menu>
+            <MenuButton className="inline-flex items-center gap-2 rounded-md  py-1.5 px-3 text-sm/6 font-semibold focus:outline-none  data-[focus]:outline-1 data-[focus]:outline-white">
+              <ShoppingCartIcon className="size-5" />
+            </MenuButton>
+
+            <MenuItems
+              transition
+              anchor="bottom start"
+              className="w-52 origin-top-right rounded-xl border border-white/5 bg-black p-1 text-sm/6 text-white transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0 z-40 "
+            >
+
+              <MenuItem>
+                <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
+                  <TrashIcon className="size-4 fill-white/30" />
+                  Delete
+                  <kbd className="ml-auto font-sans text-xs text-white/50 ">
+                    <img src="https://cdn.authentic-shoes.com/wp-content/uploads/2023/07/dr6191-101_blanc_1.png" alt="" />
+                  </kbd>
+                </button>
+              </MenuItem>
+            </MenuItems>
+          </Menu>
         </div>
         <div className='User flex justify-center '>
-        <Menu>
-          <MenuButton className="inline-flex items-center gap-2 rounded-md  py-1.5 px-3 text-sm/6 font-semibold shadow-inner shadow-white/10 focus:outline-none  data-[focus]:outline-1 data-[focus]:outline-white">
-             <UserIcon className="size-5" />
-          </MenuButton>
+          <Menu>
+            <MenuButton className="inline-flex items-center gap-2 rounded-md  py-1.5 px-3 text-sm/6 font-semibold focus:outline-none  data-[focus]:outline-1 data-[focus]:outline-white">
+              {
+                login ? "vandong" : "user"
+              } <UserIcon className="size-5" />
+            </MenuButton>
 
-          <MenuItems
-            transition
-            anchor="bottom end"
-            className="w-52 origin-top-right rounded-xl border border-white/5 bg-black p-1 text-sm/6 text-white transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0 z-40 "
-          >
-           
-            <MenuItem>
-              <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
-                <TrashIcon className="size-4 fill-white/30" />
-                Delete
-                <kbd className="ml-auto font-sans text-xs text-white/50 ">
-               
-                </kbd>
-              </button>
-            </MenuItem>
-          </MenuItems>
-        </Menu>
+            <MenuItems
+              transition
+              anchor="bottom"
+              className="w-52 origin-top-right rounded-xl border border-white/5 bg-black p-1 text-sm/6 text-white transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0 z-40 "
+            >
+
+              <MenuItem>
+                <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
+                  <TrashIcon className="size-4 fill-white/30" />
+                  Setting
+                  <kbd className="ml-auto font-sans text-xs text-white/50 ">
+
+                  </kbd>
+                </button>
+              </MenuItem>
+              <MenuItem>
+                <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
+                  <TrashIcon className="size-4 fill-white/30" />
+                  Profile
+                  <kbd className="ml-auto font-sans text-xs text-white/50 ">
+
+                  </kbd>
+                </button>
+              </MenuItem>
+              <MenuItem>
+                <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
+                  <TrashIcon className="size-4 fill-white/30" />
+                  Log-out
+                  <kbd className="ml-auto font-sans text-xs text-white/50 ">
+
+                  </kbd>
+                </button>
+              </MenuItem>
+            </MenuItems>
+          </Menu>
         </div>
       </div>
       <div className='mobile mt-4 mb-4 h-full md:hidden'>
