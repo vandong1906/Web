@@ -13,7 +13,7 @@ import { Popover, PopoverButton, PopoverPanel, Menu, MenuButton, MenuItem, MenuI
 import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../context/context";
 import clsx from "clsx";
-
+import { Link } from 'react-router-dom';
 
 function NavBar({ src, NameUser }) {
   const theme = useContext(ThemeContext);
@@ -31,29 +31,20 @@ function NavBar({ src, NameUser }) {
     setcolor(!color);
   }, [enabled])
   return (
-    
-    <nav className={clsx('top-0 z-40 h-full',enabled ? 'bg-white' : 'bg-slate-600')}
+
+    <nav className={clsx('top-0 z-40 h-full', enabled ? 'bg-white' : 'bg-slate-600')}
     >
       <div className="flex justify-around">
-        <a href="#"
-          style=
-          {
-            {
-              backgroundImage:
-                "url(https://cdn.authentic-shoes.com/wp-content/uploads/2024/01/AJ1_Yellow_Ochre_Release_DayPrim.webp)"
 
-            }
-          }>
-          {NameUser}
-
-        </a>
       </div>
 
       <div className="flex justify-around max-md:hidden pc ">
-
+<div className='flex justify-center items-center'>
+<Link to='/product'>Home</Link>
+</div>
         <Popover>
           <PopoverButton className="block text-sm/6 font-semibold  focus:outline-none  data-[hover]:text-blue-400 data-[focus]:outline-1 data-[focus]:outline-white m-5 ">
-            Solutions
+            Products
           </PopoverButton>
           <PopoverPanel
             transition
@@ -84,7 +75,7 @@ function NavBar({ src, NameUser }) {
         </Popover>
         <Popover>
           <PopoverButton className="block text-sm/6 font-semibold  focus:outline-none  data-[hover]:text-blue-400 data-[focus]:outline-1 data-[focus]:outline-white m-5 ">
-            Solutions
+            Brand
           </PopoverButton>
           <PopoverPanel
             transition
@@ -115,7 +106,7 @@ function NavBar({ src, NameUser }) {
         </Popover>
         <Popover>
           <PopoverButton className="flex items-center text-sm/6 font-semibold  focus:outline-none  data-[hover]:text-blue-400 data-[focus]:outline-1 data-[focus]:outline-white m-5 ">
-            Solutions <ChevronDownIcon className='h-5' />
+            Contacts <ChevronDownIcon className='h-5' />
           </PopoverButton>
           <PopoverPanel
             transition
@@ -156,7 +147,7 @@ function NavBar({ src, NameUser }) {
         <div className="Card-Shoping flex justify-center ">
           <Menu>
             <MenuButton className="inline-flex items-center gap-2 rounded-md  py-1.5 px-3 text-sm/6 font-semibold focus:outline-none  data-[focus]:outline-1 data-[focus]:outline-white">
-              <ShoppingCartIcon className="size-5" />
+              Shopping Cart<ShoppingCartIcon className="size-5" />
             </MenuButton>
 
             <MenuItems
@@ -167,7 +158,7 @@ function NavBar({ src, NameUser }) {
 
               <MenuItem>
                 <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
-                  <TrashIcon className="size-4 fill-white/30" />
+                  
                   Delete
                   <kbd className="ml-auto font-sans text-xs text-white/50 ">
                     <img src="https://cdn.authentic-shoes.com/wp-content/uploads/2023/07/dr6191-101_blanc_1.png" alt="" />
@@ -181,7 +172,7 @@ function NavBar({ src, NameUser }) {
           <Menu>
             <MenuButton className="inline-flex items-center gap-2 rounded-md  py-1.5 px-3 text-sm/6 font-semibold focus:outline-none  data-[focus]:outline-1 data-[focus]:outline-white">
               {
-                login ? "vandong" : "user"
+                login ? "vandong" : "User"
               } <UserIcon className="size-5" />
             </MenuButton>
 
