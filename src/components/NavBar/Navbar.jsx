@@ -10,6 +10,8 @@ import {
 } from '@heroicons/react/16/solid'
 import { Popover, PopoverButton, PopoverPanel, Menu, MenuButton, MenuItem, MenuItems, Switch } from '@headlessui/react'
 
+import axios from 'axios';
+
 import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../context/context";
 import clsx from "clsx";
@@ -20,6 +22,18 @@ function NavBar({ src, NameUser }) {
   const [login, setlogin] = useState(false);
   const [enabled, setEnabled] = useState(false)
   const [color, setcolor] = useState(true);
+  const [data, setData] = useState([]);
+  console.log(process.env.REACT_APP_DB_URL+'/brand');
+  useEffect(() => {
+    const HandlerData = async () => {
+      const response = await axios.get(process.env.REACT_APP_DB_URL + '/brand')
+      console.log(response);
+setData(response.data);
+    }
+    HandlerData();
+    
+  }, [])
+   console.log(data);
   // const [statusWindow, setStatusWindow] = useState(true);
   // useEffect(() => {
   //   const handleScroll = () => {
@@ -39,9 +53,9 @@ function NavBar({ src, NameUser }) {
       </div>
 
       <div className="flex justify-around max-md:hidden pc ">
-<div className='flex justify-center items-center'>
-<Link to='/product'>Home</Link>
-</div>
+        <div className='flex justify-center items-center'>
+          <Link to='/product'>Home</Link>
+        </div>
         <Popover>
           <PopoverButton className="block text-sm/6 font-semibold  focus:outline-none  data-[hover]:text-blue-400 data-[focus]:outline-1 data-[focus]:outline-white m-5 ">
             Products
@@ -83,18 +97,15 @@ function NavBar({ src, NameUser }) {
             className="divide-y divide-white/5 bg-black rounded-xl text-sm/6 transition duration-200 ease-in-out [--anchor-gap:var(--spacing-5)] data-[closed]:-translate-y-1 data-[closed]:opacity-0 z-50"
           >
             <div className="p-3">
-              <a className="block rounded-lg py-2 px-3 transition hover:bg-white/5" href="#">
-                <p className="font-semibold text-white">Insights</p>
-                <p className="text-white/50">Measure actions your users take</p>
-              </a>
-              <a className="block rounded-lg py-2 px-3 transition hover:bg-white/5" href="#">
-                <p className="font-semibold text-white">Automations</p>
-                <p className="text-white/50">Create your own targeted content</p>
-              </a>
-              <a className="block rounded-lg py-2 px-3 transition hover:bg-white/5" href="#">
-                <p className="font-semibold text-white">Reports</p>
+            {
+              data.map((datas)=>(
+                <a className="block rounded-lg py-2 px-3 transition hover:bg-white/5" href="#">
+                <p className="font-semibold text-white">{datas.Brand_Name}</p>
                 <p className="text-white/50">Keep track of your growth</p>
               </a>
+              ))
+            }
+             
             </div>
             <div className="p-3">
               <a className="block rounded-lg py-2 px-3 transition hover:bg-white/5" href="#">
@@ -158,7 +169,7 @@ function NavBar({ src, NameUser }) {
 
               <MenuItem>
                 <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
-                  
+
                   Delete
                   <kbd className="ml-auto font-sans text-xs text-white/50 ">
                     <img src="https://cdn.authentic-shoes.com/wp-content/uploads/2023/07/dr6191-101_blanc_1.png" alt="" />
