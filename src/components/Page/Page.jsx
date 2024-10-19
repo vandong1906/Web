@@ -78,13 +78,19 @@ function Page() {
         imgUrl: "https://cdn.authentic-shoes.com/wp-content/uploads/2023/09/image-54-2048x711-2.webp"
     }]
     return <>
+
         <Header NameUser={NameUser.Name} />
         <div className="Slide_Page mt-1 ">
             <SlidePage children={SlidePageSwipper} />
         </div>
-        <Brand />
-        <ListBrand children={products} />
+        <div className="grid grid-cols-4 ">
 
+            <Brand />
+          
+        </div>
+        {
+           <ListBrand children={products}/>
+        }
 
     </>
 

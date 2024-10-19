@@ -1,3 +1,4 @@
+import ListBrand from "../Brand/ListBrand";
 import CardBrand from "../Card/Card-Brand";
 import Header from "../Header/Header";
 
@@ -37,7 +38,7 @@ function Product() {
         <div className="Diff-card grid-cols-4 grid gap-3">
             {
                 product.map((products) => (
-                    <CardBrand children1={products} />
+                   <ListBrand children={products}/>
                 ))
             }
 

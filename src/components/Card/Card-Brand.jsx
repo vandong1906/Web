@@ -1,7 +1,8 @@
 function CardBrand({children1}) {
+    
     return (
         <div className="card" key={children1.brandId}>
-            <a href="">
+            <a href="#">
             <div className="image m-4">
                 <img src={children1.imageUrl} alt="" className="" />
             </div>

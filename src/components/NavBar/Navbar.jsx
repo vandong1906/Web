@@ -10,37 +10,31 @@ import {
 } from '@heroicons/react/16/solid'
 import { Popover, PopoverButton, PopoverPanel, Menu, MenuButton, MenuItem, MenuItems, Switch } from '@headlessui/react'
 
-import axios from 'axios';
 
-import { useContext, useEffect, useState } from "react";
-import { ThemeContext } from "../../context/context";
+import { useEffect, useState } from "react";
+import { ThemeContext, useAuth } from "../../context/context";
 import clsx from "clsx";
 import { Link } from 'react-router-dom';
+import fetchData from '../axiosFetch/fetchData';
 
-function NavBar({ src, NameUser }) {
-  const theme = useContext(ThemeContext);
-  const [login, setlogin] = useState(false);
+function NavBar() {
+ 
+  const temp=localStorage.getItem('cart')
+const {isLogin,handlerUser,user} = useAuth();
+const [data,setData]=useState([]);
   const [enabled, setEnabled] = useState(false)
   const [color, setcolor] = useState(true);
-  const [data, setData] = useState([]);
-  console.log(process.env.REACT_APP_DB_URL+'/brand');
-  useEffect(() => {
-    const HandlerData = async () => {
-      const response = await axios.get(process.env.REACT_APP_DB_URL + '/brand')
-      console.log(response);
-setData(response.data);
-    }
-    HandlerData();
-    
-  }, [])
-   console.log(data);
-  // const [statusWindow, setStatusWindow] = useState(true);
   // useEffect(() => {
-  //   const handleScroll = () => {
-  //     setStatusWindow(window.scrollY === 0);
-  //   };
-
-  // }, window.scrollY); // 
+  //   const HandlerData = async () => {
+  //     const response = await fetchData.getData(process.env.REACT_APP_APi_URL + '/user')
+  //     console.log(response);
+  //     handleUser(response);
+  //   }
+  //   HandlerData();
+  // }, [])
+  function handlerLogout (){
+    handlerUser(data);
+  }
   useEffect((color) => {
     setcolor(!color);
   }, [enabled])
@@ -54,11 +48,11 @@ setData(response.data);
 
       <div className="flex justify-around max-md:hidden pc ">
         <div className='flex justify-center items-center'>
-          <Link to='/product'>Home</Link>
+          <Link to='/'>Home</Link>
         </div>
         <Popover>
           <PopoverButton className="block text-sm/6 font-semibold  focus:outline-none  data-[hover]:text-blue-400 data-[focus]:outline-1 data-[focus]:outline-white m-5 ">
-            Products
+          Product
           </PopoverButton>
           <PopoverPanel
             transition
@@ -97,15 +91,15 @@ setData(response.data);
             className="divide-y divide-white/5 bg-black rounded-xl text-sm/6 transition duration-200 ease-in-out [--anchor-gap:var(--spacing-5)] data-[closed]:-translate-y-1 data-[closed]:opacity-0 z-50"
           >
             <div className="p-3">
-            {
+              {/* {
               data.map((datas)=>(
                 <a className="block rounded-lg py-2 px-3 transition hover:bg-white/5" href="#">
                 <p className="font-semibold text-white">{datas.Brand_Name}</p>
                 <p className="text-white/50">Keep track of your growth</p>
               </a>
               ))
-            }
-             
+            } */}
+
             </div>
             <div className="p-3">
               <a className="block rounded-lg py-2 px-3 transition hover:bg-white/5" href="#">
@@ -183,7 +177,7 @@ setData(response.data);
           <Menu>
             <MenuButton className="inline-flex items-center gap-2 rounded-md  py-1.5 px-3 text-sm/6 font-semibold focus:outline-none  data-[focus]:outline-1 data-[focus]:outline-white">
               {
-                login ? "vandong" : "User"
+                isLogin ? "vandong" : "User"
               } <UserIcon className="size-5" />
             </MenuButton>
 
@@ -212,7 +206,9 @@ setData(response.data);
                 </button>
               </MenuItem>
               <MenuItem>
-                <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
+                <button onClick={
+                  handlerLogout
+                } className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
                   <TrashIcon className="size-4 fill-white/30" />
                   Log-out
                   <kbd className="ml-auto font-sans text-xs text-white/50 ">
@@ -224,10 +220,12 @@ setData(response.data);
           </Menu>
         </div>
       </div>
-      <div className='mobile mt-4 mb-4 h-full md:hidden'>
+
+      {/* Mobile Phone */}
+      <div className='mobile mb-4 h-full md:hidden  '>
         <Menu>
-          <MenuButton className="inline-flex items-center gap-2 rounded-md bg-gray-800 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-700 data-[open]:bg-gray-700 data-[focus]:outline-1 data-[focus]:outline-white">
-            Menu <Bars4Icon className="size-4 fill-white/60" />
+          <MenuButton className="inline-flex items-center gap-2 rounded-md bg-gray-800 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-700 data-[open]:bg-gray-700 data-[focus]:outline-1 data-[focus]:outline-white h-full">
+            Menu <Bars4Icon className="size-4 fill-white/60 h-full" />
           </MenuButton>
 
           <MenuItems
@@ -266,6 +264,7 @@ setData(response.data);
             </MenuItem>
           </MenuItems>
         </Menu>
+
       </div>
 
     </nav>
