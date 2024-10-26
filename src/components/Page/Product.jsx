@@ -36,11 +36,11 @@ function Product() {
 
         </div>
         <div className="Diff-card grid-cols-4 grid gap-3">
-            {
+            {/* {
                 product.map((products) => (
                    <ListBrand children={products}/>
                 ))
-            }
+            } */}
 
         </div>
     </>

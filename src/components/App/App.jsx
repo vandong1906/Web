@@ -1,4 +1,3 @@
-
 import { AuthProvider } from "../../context/context";
 import Page from "../Page/Page";
 import Product from "../Page/Product";
@@ -19,5 +18,4 @@ function App() {
 
     )
 }
-
 export default App;
