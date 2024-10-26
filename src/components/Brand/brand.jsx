@@ -4,14 +4,14 @@ import fetchData from "../axiosFetch/fetchData";
 import { Buffer } from "buffer";
 function Brand() {
     const [data, setdata] = useState([]);
-    useEffect(() => {
-        const HandlerData = async () => {
-            const response = await fetchData.getData(process.env.REACT_APP_APi_URL + '/product')
-            console.log(response);
-            setdata(response);
-        }
-        HandlerData();
-    }, [])
+    // useEffect(() => {
+    //     const HandlerData = async () => {
+    //         const response = await fetchData.getData(process.env.REACT_APP_APi_URL + '/product')
+    //         console.log(response);
+    //         setdata(response);
+    //     }
+    //     HandlerData();
+    // }, [])
 
     return <>
 

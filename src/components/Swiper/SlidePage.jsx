@@ -23,7 +23,7 @@ export default function SlidePage({children}) {
        
        {children.map((slide) => (
         <SwiperSlide >
-          <img src={slide.imgUrl} alt={slide.title} />
+          <img src={slide.imgUrl} alt={slide.title} className='w-full' />
         
         </SwiperSlide>
       ))}
