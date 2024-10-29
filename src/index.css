@@ -6,3 +6,13 @@
 li > a {
 font-size: 20px;
 }
+
+.ahover:focus {
+ border-bottom: 2px solid black;
+
+}
+
+.ahover:focus> :not(:focus) {
+    background-color: white;
+
+}

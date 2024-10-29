@@ -16,9 +16,16 @@ import { useEffect, useState } from "react";
 import clsx from "clsx";
 import { Link } from 'react-router-dom';
 import fetchData from '../axiosFetch/fetchData';
+import { UseAuth } from '../Context/Context';
 
 function NavBar() {
-
+  const ob = {
+    cart: {
+      cart_id: 1,
+      cart_image: 'https://cdn.authentic-shoes.com/wp-content/uploads/2024/01/AJ1_Yellow_Ochre_Release_DayPrim.webp'
+    }
+  }
+  const { isLogin } = UseAuth();
   const [data, setData] = useState([]);
   const [enabled, setEnabled] = useState(false)
   const [color, setcolor] = useState(true);
@@ -92,13 +99,13 @@ function NavBar() {
             </div>
           </PopoverPanel>
         </Popover>
-       <div className=''>
-        <Link to='/contact' className='hover:text-blue-600'>Contact</Link>
-       </div>
-       <div className='Search relative flex items-center' >
-        <input type="text" name="" id="" className='rounded-full h-12 text-center' placeholder='Search'/>
-        <MagnifyingGlassIcon className='h-6 w-6 absolute right-0 bg-blue-600 rounded-full mr-4'/>
-       </div>
+        <div className=''>
+          <Link to='/contact' className='hover:text-blue-600'>Contact</Link>
+        </div>
+        <div className='Search relative flex items-center' >
+          <input type="text" name="" id="" className='rounded-full h-12 text-center' placeholder='Search' />
+          <MagnifyingGlassIcon className='h-6 w-6 absolute right-0 bg-blue-600 rounded-full mr-4' />
+        </div>
         <div className='switch-color flex justify-center items-center'>
           <Switch
             checked={enabled}
@@ -119,16 +126,18 @@ function NavBar() {
               anchor="bottom start"
               className="w-52 origin-top-right rounded-xl border border-white/5 bg-black p-1 text-sm/6 text-white transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0 z-40 "
             >
+              
+                  <MenuItem>
+                    <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
 
-              <MenuItem>
-                <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
+                      Delete
+                      <kbd className="ml-auto font-sans text-xs text-white/50 ">
+                        <img src='' alt="" />
+                      </kbd>
+                    </button>
+                  </MenuItem>
+                
 
-                  Delete
-                  <kbd className="ml-auto font-sans text-xs text-white/50 ">
-                    <img src="https://cdn.authentic-shoes.com/wp-content/uploads/2023/07/dr6191-101_blanc_1.png" alt="" />
-                  </kbd>
-                </button>
-              </MenuItem>
             </MenuItems>
           </Menu>
         </div>
@@ -154,9 +163,12 @@ function NavBar() {
                   </kbd>
                 </button>
               </MenuItem>
-              <MenuItem>
-              <Link to='/DashBoard' className='group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10'> <TrashIcon className="size-4 fill-white/30" />DashBoard</Link>
-              </MenuItem>
+              {
+                isLogin && (<MenuItem>
+                  <Link to='/DashBoard' className='group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10'> <TrashIcon className="size-4 fill-white/30" />DashBoard</Link>
+                </MenuItem>)
+              }
+
               <MenuItem>
                 <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
                   <TrashIcon className="size-4 fill-white/30" />
