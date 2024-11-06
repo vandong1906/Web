@@ -7,11 +7,13 @@ import { Buffer } from "buffer";
 function Product() {
     const [data, setData] = useState(null);
     const [loading, SetLoading] = useState(false);
+    console.log(process.env.REACT_APP_APi_URL + '/product/where/3')
     useEffect(() => {
         const handler = async () => {
             try {
-                const response = await fetchData.geDatat(process.env.REACT_APP_API_URL+'/product/where/3');
+                const response = await fetchData.getData(process.env.REACT_APP_APi_URL + '/product/where/3');
                 setData(response);
+                SetLoading(true);
                 console.log(data, 'Fetched Data');
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -34,11 +36,11 @@ function Product() {
             </nav>
             <div className="md:flex">
                 <div className="md:w-1/2">
-                    {/* {
+                    {
                         loading && (
                         <img src={`data:image/jpeg;base64,${Buffer.from(data.image_data.data).toString('base64')}`} alt="Nike Zoom Vapor Pro 2 HC ‘White’ DR6191-101" className="w-full mb-4" />
                         )
-                    } */}
+                    } 
 
                     <div className="flex space-x-2">
                         <img src="https://placehold.co/100x100" alt="Side view of Nike Zoom Vapor Pro 2 HC ‘White’" className="w-1/5" />

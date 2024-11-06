@@ -1,7 +1,10 @@
 import { lazy, Suspense, useState } from "react";
+import { useCookies } from 'react-cookie';
 import Brand from "../Brand/brand";
 import AddProduct from "../form/addProduct";
 import Form from "../form/Form";
+
+
 
 import Header from "../Header/Header";
 import SlidePage from "../Swiper/SlidePage";
@@ -9,9 +12,10 @@ import Product from "./Product";
 import clsx from "clsx";
 import { Navigate } from "react-router-dom";
 
-const ListProduct = lazy(() => import('../Brand/ListProduct'));
+const ListProduct = lazy(() => import('../Brand/ListProduct'))
 function Page() {
-
+  
+  
     const [isOpen, setOpen] = useState(false);
     const SlidePageSwipper = [{
 
@@ -43,16 +47,12 @@ function Page() {
             </div>
 
         </section>
-
         {
-            isOpen && <Suspense fallback={<div>Loading...</div>}>
+            isOpen && <Suspense fallback={<div>is loading</div>}>
                 <ListProduct />
             </Suspense>
         }
-
-
-
-
+        <div id="item1"></div>
     </>
 
 

@@ -2,17 +2,23 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './components/App/App';
-import { AuthContext } from './components/Context/Context';
+import { AuthContext, UseAuth } from './components/useHook/Context';
+
 
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <AuthContext>
 
-    <App/>
-    </AuthContext>
+<AuthContext>
+
+<App/>
+</AuthContext>
+
+
+
+
 
   </React.StrictMode>
 );

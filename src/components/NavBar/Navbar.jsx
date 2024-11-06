@@ -14,26 +14,20 @@ import { Popover, PopoverButton, PopoverPanel, Menu, MenuButton, MenuItem, MenuI
 
 import { useEffect, useState } from "react";
 import clsx from "clsx";
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import fetchData from '../axiosFetch/fetchData';
-import { UseAuth } from '../Context/Context';
+import { UseAuth } from '../useHook/Context';
 
 function NavBar() {
-  const ob = {
-    cart: {
-      cart_id: 1,
-      cart_image: 'https://cdn.authentic-shoes.com/wp-content/uploads/2024/01/AJ1_Yellow_Ochre_Release_DayPrim.webp'
-    }
-  }
-  const { isLogin } = UseAuth();
+  const navigate =useNavigate();
+  const { isLogin,handleLogout } = UseAuth();
   const [data, setData] = useState([]);
   const [enabled, setEnabled] = useState(false)
   const [color, setcolor] = useState(true);
   useEffect((color) => {
     setcolor(!color);
   }, [enabled])
-  return (
-
+  return <>
     <nav className={clsx('top-0 z-40 h-full', enabled ? 'bg-white' : 'bg-slate-600')}
     >
       <div className="flex justify-around max-md:hidden pc items-center ">
@@ -164,8 +158,29 @@ function NavBar() {
                 </button>
               </MenuItem>
               {
-                isLogin && (<MenuItem>
+                isLogin ? (<>
+                <MenuItem>
+                  <Link to='/AddProduct' className='group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10'> <TrashIcon className="size-4 fill-white/30" />AddProduct</Link>
+                </MenuItem>
+                <MenuItem>
                   <Link to='/DashBoard' className='group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10'> <TrashIcon className="size-4 fill-white/30" />DashBoard</Link>
+                </MenuItem>
+                <MenuItem>
+                <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10" onClick={()=>{handleLogout();
+                navigate('/login');
+             
+               
+                }}>
+                  <TrashIcon className="size-4 fill-white/30"  />
+                  Log-out
+                  <kbd className="ml-auto font-sans text-xs text-white/50 ">
+
+                  </kbd>
+                </button>
+              </MenuItem>
+                </>
+                ) :(<MenuItem>
+                  <Link to='/Login' className='group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10'> <TrashIcon className="size-4 fill-white/30" />Login</Link>
                 </MenuItem>)
               }
 
@@ -178,15 +193,8 @@ function NavBar() {
                   </kbd>
                 </button>
               </MenuItem>
-              <MenuItem>
-                <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
-                  <TrashIcon className="size-4 fill-white/30" />
-                  Log-out
-                  <kbd className="ml-auto font-sans text-xs text-white/50 ">
-
-                  </kbd>
-                </button>
-              </MenuItem>
+              
+              
             </MenuItems>
           </Menu>
         </div>
@@ -239,7 +247,10 @@ function NavBar() {
       </div>
 
     </nav>
-  );
+  </>
+
+    
+  
 }
 
 export default NavBar;
