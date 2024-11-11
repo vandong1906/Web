@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 
 import BackGround from '../img/BackGround.jpg'
 import fetchData from '../axiosFetch/fetchData';
-import { useCookies } from 'react-cookie';
+
 import { UseAuth } from '../useHook/Context';
 import { Navigate } from 'react-router-dom';
 function Form() {
@@ -14,19 +14,17 @@ function Form() {
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [status, setSatus] = useState(true);
-    
-
     const [error, setError] = useState(null);
     async function handlerLogin(name,password) {
         try {
             const UserLogin = {
                 User_Name: name,
-                password: password
+                password: password, 
             };
-            const respon = await fetchData.get(process.env.REACT_APP_APi_URL + '/user', UserLogin);
-            console.log(respon);
+            const respon = await fetchData.post('/user', UserLogin);
+            
             if (respon.status == 200) {
-                handleLogin();
+                handleLogin(respon.data);
               
             }
         } catch (error) {
@@ -34,6 +32,7 @@ function Form() {
             console.error("Error:", error);
         }
     }
+   
     async function handlerSignUp(name,password) {
         try {
             const UserLogin = {
@@ -41,7 +40,7 @@ function Form() {
                 password: password
             };
             console.log("User data:", UserLogin);
-            const status = await fetchData.post(process.env.REACT_APP_APi_URL + "/user/signup", UserLogin);
+            const status = await fetchData.post("/user/signup", UserLogin);
             console.log("Response status:", status);
         } catch (error) {
             setError("An error occurred during login.");

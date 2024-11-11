@@ -4,7 +4,8 @@ const fetchData = axios.create({
   baseURL: process.env.REACT_APP_APi_URL,
   headers: {
     'Content-Type': 'application/json'
-  }
+  },
+ withCredentials:true,
 });
 
 fetchData.postData = async (endpoint,data) => {

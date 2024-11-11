@@ -19,8 +19,8 @@ import fetchData from '../axiosFetch/fetchData';
 import { UseAuth } from '../useHook/Context';
 
 function NavBar() {
-  const navigate =useNavigate();
-  const { isLogin,handleLogout } = UseAuth();
+  const navigate = useNavigate();
+  const { isLogin, handleLogout,user } = UseAuth();
   const [data, setData] = useState([]);
   const [enabled, setEnabled] = useState(false)
   const [color, setcolor] = useState(true);
@@ -120,17 +120,17 @@ function NavBar() {
               anchor="bottom start"
               className="w-52 origin-top-right rounded-xl border border-white/5 bg-black p-1 text-sm/6 text-white transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0 z-40 "
             >
-              
-                  <MenuItem>
-                    <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
 
-                      Delete
-                      <kbd className="ml-auto font-sans text-xs text-white/50 ">
-                        <img src='' alt="" />
-                      </kbd>
-                    </button>
-                  </MenuItem>
-                
+              <MenuItem>
+                <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
+
+                  Delete
+                  <kbd className="ml-auto font-sans text-xs text-white/50 ">
+                    <img src='' alt="" />
+                  </kbd>
+                </button>
+              </MenuItem>
+
 
             </MenuItems>
           </Menu>
@@ -139,7 +139,9 @@ function NavBar() {
         <div className='User flex justify-center '>
           <Menu>
             <MenuButton className="inline-flex items-center gap-2 rounded-md  py-1.5 px-3 text-sm/6 font-semibold focus:outline-none  data-[focus]:outline-1 data-[focus]:outline-white">
-              vandong <UserIcon className="size-5" />
+              {
+                user ? user.User_Name : "an danh"
+              } <UserIcon className="size-5" />
             </MenuButton>
 
             <MenuItems
@@ -159,27 +161,26 @@ function NavBar() {
               </MenuItem>
               {
                 isLogin ? (<>
-                <MenuItem>
-                  <Link to='/AddProduct' className='group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10'> <TrashIcon className="size-4 fill-white/30" />AddProduct</Link>
-                </MenuItem>
-                <MenuItem>
-                  <Link to='/DashBoard' className='group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10'> <TrashIcon className="size-4 fill-white/30" />DashBoard</Link>
-                </MenuItem>
-                <MenuItem>
-                <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10" onClick={()=>{handleLogout();
-                navigate('/login');
-             
-               
-                }}>
-                  <TrashIcon className="size-4 fill-white/30"  />
-                  Log-out
-                  <kbd className="ml-auto font-sans text-xs text-white/50 ">
+                  <MenuItem>
+                    <Link to='AddProduct' className='group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10'> <TrashIcon className="size-4 fill-white/30" />AddProduct</Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <Link to='/DashBoard' className='group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10'> <TrashIcon className="size-4 fill-white/30" />DashBoard</Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10" onClick={() => {
+                      handleLogout();
+                      navigate('/login');
+                    }}>
+                      <TrashIcon className="size-4 fill-white/30" />
+                      Log-out
+                      <kbd className="ml-auto font-sans text-xs text-white/50 ">
 
-                  </kbd>
-                </button>
-              </MenuItem>
+                      </kbd>
+                    </button>
+                  </MenuItem>
                 </>
-                ) :(<MenuItem>
+                ) : (<MenuItem>
                   <Link to='/Login' className='group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10'> <TrashIcon className="size-4 fill-white/30" />Login</Link>
                 </MenuItem>)
               }
@@ -193,8 +194,8 @@ function NavBar() {
                   </kbd>
                 </button>
               </MenuItem>
-              
-              
+
+
             </MenuItems>
           </Menu>
         </div>
@@ -249,8 +250,8 @@ function NavBar() {
     </nav>
   </>
 
-    
-  
+
+
 }
 
 export default NavBar;
