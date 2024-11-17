@@ -17,10 +17,12 @@ import clsx from "clsx";
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import fetchData from '../axiosFetch/fetchData';
 import { UseAuth } from '../useHook/Context';
+import Form from 'components/form/Form';
 
 function NavBar() {
   const navigate = useNavigate();
-  const { isLogin, handleLogout,user } = UseAuth();
+  const { Authenciance, cart } = UseAuth();
+  const [login, setLogin] = useState(false);
   const [data, setData] = useState([]);
   const [enabled, setEnabled] = useState(false)
   const [color, setcolor] = useState(true);
@@ -111,8 +113,8 @@ function NavBar() {
         </div>
         <div className="Card-Shoping flex justify-center ">
           <Menu>
-            <MenuButton className="inline-flex items-center gap-2 rounded-md  py-1.5 px-3 text-sm/6 font-semibold focus:outline-none  data-[focus]:outline-1 data-[focus]:outline-white">
-              Shopping Cart<ShoppingCartIcon className="size-5" />
+            <MenuButton className="inline-flex items-center gap-2 rounded-md  py-1.5 px-3 text-sm/6 font-semibold focus:outline-none  data-[focus]:outline-1 data-[focus]:outline-white relative">
+              Shopping Cart<ShoppingCartIcon className="size-5" /> <span className='top-0 absolute right-0'>{cart.cart().length}</span>
             </MenuButton>
 
             <MenuItems
@@ -122,15 +124,28 @@ function NavBar() {
             >
 
               <MenuItem>
-                <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
+                <button className="flex w-full items-center rounded-lg py-1.5 px-3 data-[focus]:bg-white/10 justify-center" onClick={cart.removeCookies}>
 
-                  Delete
-                  <kbd className="ml-auto font-sans text-xs text-white/50 ">
-                    <img src='' alt="" />
-                  </kbd>
+                  Remove
+
                 </button>
               </MenuItem>
 
+              {
+                cart.cart() &&
+                cart.cart().map((carts) => (
+                  <MenuItem>
+                    <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
+                      {carts.product_Name}
+                      <kbd className="ml-auto font-sans text-xs text-white/50 ">
+                        <img src={process.env.REACT_APP_API_IMG + '/uploads/' + carts.image_data} alt="" />
+                      </kbd>
+                    </button>
+                  </MenuItem>
+
+
+                ))
+              }
 
             </MenuItems>
           </Menu>
@@ -139,9 +154,7 @@ function NavBar() {
         <div className='User flex justify-center '>
           <Menu>
             <MenuButton className="inline-flex items-center gap-2 rounded-md  py-1.5 px-3 text-sm/6 font-semibold focus:outline-none  data-[focus]:outline-1 data-[focus]:outline-white">
-              {
-                user ? user.User_Name : "an danh"
-              } <UserIcon className="size-5" />
+              {Authenciance.user()?.User_Name ?? "Guest"} <UserIcon className="size-5" />
             </MenuButton>
 
             <MenuItems
@@ -160,7 +173,7 @@ function NavBar() {
                 </button>
               </MenuItem>
               {
-                isLogin ? (<>
+                Authenciance.login() ? (<>
                   <MenuItem>
                     <Link to='AddProduct' className='group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10'> <TrashIcon className="size-4 fill-white/30" />AddProduct</Link>
                   </MenuItem>
@@ -169,8 +182,9 @@ function NavBar() {
                   </MenuItem>
                   <MenuItem>
                     <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10" onClick={() => {
-                      handleLogout();
-                      navigate('/login');
+                      Authenciance.handleLogout();
+
+                      // navigate('/login');
                     }}>
                       <TrashIcon className="size-4 fill-white/30" />
                       Log-out
@@ -181,7 +195,9 @@ function NavBar() {
                   </MenuItem>
                 </>
                 ) : (<MenuItem>
-                  <Link to='/Login' className='group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10'> <TrashIcon className="size-4 fill-white/30" />Login</Link>
+                  <button onClick={() => {
+                    setLogin(true);
+                  }} type="submit" className='group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10'> <TrashIcon className="size-4 fill-white/30" />Login</button>
                 </MenuItem>)
               }
 
@@ -248,6 +264,9 @@ function NavBar() {
       </div>
 
     </nav>
+    {
+      login && (!Authenciance.login() && <Form />)
+    }
   </>
 
 
